@@ -26,6 +26,10 @@ CONFIG = {
         'CONFIG_DIR': os.path.join(HOME, '.config', 'waybar'),
         'FILES': ['config.jsonc', 'style.css']
     },
+    "WOFI": {
+        'CONFIG_DIR': os.path.join(HOME, '.config', 'wofi'),
+        'FILES': ['style.css']
+    },
     "WALLPAPER": {
         'CONFIG_DIR': os.path.join(HOME, 'Pictures'),
         'FILES': ['wallpaper.png']
@@ -40,16 +44,13 @@ def ask_override(filename):
 
 def ask_choice(options):
     print("Choose one of the following options:")
-    
     for id, option in enumerate(options, 1):
         print(f"{id}) {option}")
-        
     while True:
         choice = input(f"Enter choice number (1-{len(options)}): ").strip()
         
         if choice.isdigit():
             id = int(choice)
-            
             if 1 <= id <= len(options):
                 return options[id - 1]
             
@@ -59,34 +60,23 @@ def ask_choice(options):
 def setup():
     override_all = input('Override all the files? (Y/N): ').strip().lower() == 'y'
 
-    for config in CONFIG.values():
+    for config_name, config in CONFIG.items():
         os.makedirs(config['CONFIG_DIR'], exist_ok=True)
 
         for filename in config.get('FILES', []):
-            destination = os.path.join(config['CONFIG_DIR'], filename)
-            if override_all:
-                shutil.copyfile(filename, destination)
-                continue
+            src_path = os.path.join(config_name, filename)
+            dst_path = os.path.join(config['CONFIG_DIR'], filename)
 
-            if os.path.exists(destination):
-                if ask_override(filename):
-                    shutil.copyfile(filename, destination)
-            else:
-                shutil.copyfile(filename, destination)
+            if override_all or ask_override(filename):
+                shutil.copyfile(src_path, dst_path)
 
         for choice_group in config.get('CHOICE_FILES', []):
-            chosen_file = ask_choice(choice_group['OPTIONS'])
-            destination = os.path.join(config['CONFIG_DIR'], choice_group['RESULT'])
+            chosen = ask_choice(choice_group['OPTIONS'])
+            src_path = os.path.join(config_name, chosen)
+            dst_path = os.path.join(config['CONFIG_DIR'], choice_group['RESULT'])
 
-            if override_all:
-                shutil.copyfile(chosen_file, destination)
-                continue
-
-            if os.path.exists(destination):
-                if ask_override(choice_group['RESULT']):
-                    shutil.copyfile(chosen_file, destination)
-            else:
-                shutil.copyfile(chosen_file, destination)
+            if override_all or ask_override(choice_group['RESULT']):
+                shutil.copyfile(src_path, dst_path)
 
 
 if __name__ == '__main__':

@@ -7,7 +7,9 @@ if [ "$UID" -ne 0 ]; then
 fi
 
 pacman -Syu
-pacman -S --noconfirm --needed python3 neovim hyprland hyprpaper waybar kitty wofi ranger firefox grim slurp wl-clipboard wayland-utils xorg-xwayland pipewire wireplumber mpv
+pacman -S --noconfirm --needed python3 sddm neovim hyprland hyprpaper waybar kitty wofi ranger firefox grim slurp wl-clipboard wayland-utils xorg-xwayland pipewire wireplumber mpv
+
+systemctl enable sddm
 
 ORIG_USER=$(logname)
 ORIG_HOME=$(getent passwd "$ORIG_USER" | cut -d: -f6)
