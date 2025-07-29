@@ -24,11 +24,15 @@ CONFIG = {
     },
     "WAYBAR": {
         'CONFIG_DIR': os.path.join(HOME, '.config', 'waybar'),
-        'FILES': ['config.jsonc', 'style.css']
+        'FILES': ['config.jsonc', 'style.css', 'power_menu.xml']
     },
     "WOFI": {
         'CONFIG_DIR': os.path.join(HOME, '.config', 'wofi'),
         'FILES': ['style.css']
+    },
+    "MAKO": {
+        'CONFIG_DIR': os.path.join(HOME, '.config', 'mako'),
+        'FILES': ['config']
     },
     "WALLPAPER": {
         'CONFIG_DIR': os.path.join(HOME, 'Pictures'),

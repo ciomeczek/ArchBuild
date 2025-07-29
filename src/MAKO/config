@@ -1,0 +1,24 @@
+font=FontAwesome 13
+format=<b>%a ⏵</b> %s\n%b
+sort=-time
+layer=overlay
+anchor=top-right
+width=300
+height=110
+margin=10
+padding=20
+icons=0
+max-icon-size=64
+default-timeout=5000
+ignore-timeout=1
+
+# Style
+background-color=#1E2226
+border-size=2
+border-color=#4c5a66
+border-radius=10
+text-color=#e0e6ed
+
+[urgency=high]
+border-color=#bf616a
+default-timeout=0
